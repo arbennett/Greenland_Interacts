@@ -21,8 +21,8 @@ def main(file_name='Greenland1km.nc'):
     # Set up the file and projection
     data = os.path.dirname(os.path.abspath(__file__)) + os.sep + '..' + os.sep \
             + 'data' + os.sep + file_name
-    proj_file = pyproj.Proj('+proj=stere +lat_ts=71.0 +lat_0=90 ' \
-            + '+lon_0=321.0 +k_0=1.0 +geoidgrids=' + data)
+    proj_file = pyproj.Proj('+proj=stere +ellps=WGS84 +datum=WGS84 +lat_ts=71.0 +lat_0=90 ' \
+            + '+lon_0=321.0 +k_0=1.0')
     proj_lat_long = pyproj.Proj('+proj=latlong +ellps=WGS84 +datum=WGS84')   
 
     # Open up the file and grab the data we want out of it
@@ -38,10 +38,6 @@ def main(file_name='Greenland1km.nc'):
     lon, lat = pyproj.transform(proj_file, proj_lat_long, x_grid.flatten(), y_grid.flatten())
     lat = lat.reshape(ny,nx)
     lon = lon.reshape(ny,nx)
-
-#    print np.min(lat), np.max(lat)
-#    print np.min(lon), np.max(lon)
-#    exit()
 
     # Time to put it all in the basemap
     map = Basemap(projection='stere',lat_0=65, lon_0=-25,\
@@ -62,3 +58,4 @@ def main(file_name='Greenland1km.nc'):
 if __name__ == '__main__':
     '''Run the thing'''
     main()
+
